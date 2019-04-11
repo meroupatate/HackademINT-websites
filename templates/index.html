@@ -1,0 +1,63 @@
+{% extends 'base.html' %}                                                       
+{% block main %}
+<!-- Page Heading -->
+<h1 class="sidebar-brand-text mx-3">
+  Bienvenue sur websites.hackademint.org
+</h1>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-info">Sites HackademINT</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>websites</th>
+            <th>ip</th>
+            <th>port</th>
+            <th>status</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>websites</th>
+            <th>ip</th>
+            <th>port</th>
+            <th>status</th>
+          </tr>
+        </tfoot>
+        <tbody>
+          {% for item in data %}
+          <tr>
+            <td>
+              {% if item['status_code'] == 404 %}
+              <a href='https://{{ item['url'] }}' style="color:#e74a3b">{{ item['url'] }}</a>
+              {% elif item['status_code'] == 200 %}
+              <a href='https://{{ item['url'] }}' style="color:#1cc88a">{{ item['url'] }}</a>
+              {% else %}
+              <a href='https://{{ item['url'] }}' style="color:#f6c23e">{{ item['url'] }}</a>
+              {% endif %}
+              </p>
+            </td>
+            <td>{{ item['ip'] }}</td>
+            {% if item['port'] %}
+              <td>{{ item['port'] }}</td>
+            {% else %}
+              {% if item['protocol'] == 'https' %}
+                <td>443</td>
+              {% else %}
+                <td>80</td>
+              {% endif %}
+            {% endif %}
+            <td>{{ item['status_code'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
