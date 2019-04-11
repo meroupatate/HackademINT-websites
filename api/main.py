@@ -1,10 +1,7 @@
 #!/usr/bin/python3
 
-import requests, os
-
-from flask import Flask
-from flask import render_template
-from flask import render_template_string, abort
+import requests
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_caching import Cache
 
@@ -24,6 +21,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:%(pw)s@%(host)s:%
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 class Websites(db.Model):
     id       = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(500), unique=True, nullable=False)
@@ -31,35 +29,22 @@ class Websites(db.Model):
     port = db.Column(db.String(500), unique=False, nullable=True)
     protocol = db.Column(db.String(500), unique=False, nullable=True)
 
+
 @app.route("/")
 @cache.cached(timeout=60)
 def index():
-    websites = Websites.query.all()
-    data = []
-    for website in websites:
-        if not website.protocol:
-            continue
-        if website.port:
-            pattern = '{}://{}:{}'
-        else:
-            pattern = '{}://{}'
-        try:
-            f = pattern.format(website.protocol, website.ip, website.port)
-            status_code = requests.get(f, verify=False, stream=True, timeout=0.1).status_code
-        except Exception as exception:
-            print(exception)
-            status_code = 404
-        data.append({'id': website.id, 'url': website.url, 'ip': website.ip,
-                     'port': website.port, 'protocol': website.protocol,
-                     'status_code': status_code})
-    return render_template('index.html', data=data)
+    author = 'lishizalice'
+    follow_me = 'https://github.com/lishizalice'
+    d = {'author': author, 'follow_me': follow_me}
+    return jsonify(d)
+
 
 @app.route('/stats')
 @cache.cached(timeout=60)
 def stats():
     websites = Websites.query.all()
-    data = []
-    for website in websites:
+    d = {}
+    for key, website in enumerate(websites):
         if not website.protocol:
             continue
         if website.port:
@@ -72,14 +57,11 @@ def stats():
         except Exception as exception:
             print(exception)
             status_code = 404
-        data.append({'id': website.id, 'url': website.url, 'ip': website.ip,
-                     'port': website.port, 'protocol': website.protocol,
-                     'status_code': status_code})
-    return render_template('stats.html', data=data)
+        d[str(key)] = {'id': website.id, 'url': website.url, 'ip': website.ip,
+                       'port': website.port, 'protocol': website.protocol,
+                       'status_code': status_code}
+    return jsonify(d)
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3004, debug=True)
+    app.run(host='0.0.0.0', port=7653, debug=True)
