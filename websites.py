@@ -34,7 +34,24 @@ class Websites(db.Model):
 @app.route("/")
 @cache.cached(timeout=60)
 def index():
+    websites = Websites.query.all()
     data = []
+    for website in websites:
+        if not website.protocol:
+            continue
+        if website.port:
+            pattern = '{}://{}:{}'
+        else:
+            pattern = '{}://{}'
+        try:
+            f = pattern.format(website.protocol, website.ip, website.port)
+            status_code = requests.get(f, verify=False, stream=True, timeout=0.1).status_code
+        except Exception as exception:
+            print(exception)
+            status_code = 404
+        data.append({'id': website.id, 'url': website.url, 'ip': website.ip,
+                     'port': website.port, 'protocol': website.protocol,
+                     'status_code': status_code})
     return render_template('index.html', data=data)
 
 if __name__ == "__main__":
