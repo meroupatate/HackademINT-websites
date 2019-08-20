@@ -1,0 +1,53 @@
+{% extends 'base.html' %}                                                       
+{% block main %}
+<!-- Page Heading -->
+<h1 class="sidebar-brand-text mx-3">
+  Bienvenue sur Websites
+</h1>
+<p>Ci-dessous sont référencés les sites HackademINT en fonction de leur état de
+disponibilité.</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-info">Sites HackademINT</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for website in websites %}
+          <tr>
+            <td>
+              {% if website.color == 'red' %}
+              <a href='https://{{ website.url }}' class="text-danger">{{ website.url }}</a>
+              {% elif website.color == 'blue' %}
+              <a href='https://{{ website.url }}' class="text-success">{{ website.url }}</a>
+              {% else %}
+              <a href='https://{{ website.url }}' class="text-warning">{{ website.url }}</a>
+              {% endif %}
+              </p>
+            </td>
+            <td>
+              {% if website.color == 'red' %}
+              <i class="fas fa-cloud-showers-heavy text-muted"></i>
+              {% elif website.color == 'blue' %}
+              <i class="fas fa-sun text-warning"></i>
+              {% else %}
+              <i class="fas fa-question text-danger"></i>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

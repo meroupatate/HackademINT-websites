@@ -20,7 +20,7 @@
                 Total websites
               </div>
               <div class="h5 mb-0 font-weight-bold text-gray-800">
-                {{ data|length }}
+                {{ websites|length }}
               </div>
             </div>
             <div class="col-auto">
@@ -41,13 +41,13 @@
               <div class="row no-gutters align-items-center">
                 <div class="col-auto">
                   <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                    {{ data|selectattr('status_code', 'equalto', 200)|list|length }} / {{ data|length }}
+                    {{ websites|selectattr('color', 'equalto', 'blue')|list|length }} / {{ websites|length }}
                   </div>
                 </div>
                 <div class="col">
                   <div class="progress progress-sm mr-2">
                     <div class="progress-bar bg-success" role="progressbar"
-                      style="width: {{ data|selectattr('status_code', 'equalto', 200)|list|length * 100 // data|length }}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                      style="width: {{ websites|selectattr('color', 'equalto', 'blue')|list|length * 100 // websites|length }}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
               </div>
@@ -70,12 +70,13 @@
               <div class="row no-gutters align-items-center">
                 <div class="col-auto">
                   <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"> 
-                    {{ data|selectattr('status_code', 'equalto', 404)|list|length }} / {{ data|length }}
+                    {{ websites|selectattr('color', 'equalto', 'red')|list|length }} / {{ websites|length }}
                   </div>
                 </div>
                 <div class="col">
                   <div class="progress progress-sm mr-2">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ data|selectattr('status_code', 'equalto', 404)|list|length * 100 // data|length }}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-danger" role="progressbar"
+                      style="width: {{ websites|selectattr('color', 'equalto', 'red')|list|length * 100 // websites|length }}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
               </div>
