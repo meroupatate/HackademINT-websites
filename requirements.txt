@@ -11,7 +11,7 @@ flask-caching==1.7.2
 flask==1.1.1
 idna==2.8                 # via requests
 itsdangerous==1.1.0       # via flask
-jinja2==2.10.1            # via flask
+jinja2==2.11.3            # via flask
 markupsafe==1.1.1         # via jinja2
 multi-key-dict==2.0.3     # via python-jenkins
 pbr==5.4.2                # via python-jenkins
