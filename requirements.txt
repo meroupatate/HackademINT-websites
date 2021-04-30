@@ -18,5 +18,5 @@ pbr==5.4.2                # via python-jenkins
 python-jenkins==1.5.0
 requests==2.22.0          # via python-jenkins
 six==1.12.0               # via python-jenkins
-urllib3==1.25.3           # via requests
+urllib3==1.25.8           # via requests
 werkzeug==0.15.5          # via flask
